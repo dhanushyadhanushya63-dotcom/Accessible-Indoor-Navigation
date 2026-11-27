@@ -1,0 +1,561 @@
+/* ===================================================================
+   ACCESSIBLE INDOOR NAVIGATION - INTERACTIVE 2D FLOOR MAP STYLES
+   Visual Highlight: SVG Vector Architecture, Neon Routes & Interactive Rooms
+   =================================================================== */
+
+.map-page-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 70px);
+  position: relative;
+  overflow: hidden;
+  background: #f1f5f9;
+}
+
+/* -------------------------------------------------------------------
+   Map Header & Controls Toolbar
+   ------------------------------------------------------------------- */
+.map-top-bar {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 20;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.floor-selector-group {
+  display: flex;
+  background: var(--bg-surface-subtle);
+  padding: 0.25rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+}
+
+.floor-btn {
+  padding: 0.35rem 1rem;
+  font-size: 0.825rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  border: none;
+  background: transparent;
+  color: var(--navy-700);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.floor-btn.active {
+  background: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+.map-hud-metrics {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: #ffffff;
+  padding: 0.4rem 1.25rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+  font-size: 0.85rem;
+}
+
+.hud-metric-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 600;
+  color: var(--navy-800);
+}
+
+.hud-metric-item span.metric-val {
+  color: var(--primary);
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+/* -------------------------------------------------------------------
+   Interactive SVG Canvas & Viewport
+   ------------------------------------------------------------------- */
+.map-viewport {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  background-color: #f8fafc;
+  background-image: 
+    radial-gradient(#cbd5e1 1.2px, transparent 1.2px),
+    radial-gradient(#cbd5e1 1.2px, #f8fafc 1.2px);
+  background-size: 32px 32px;
+  background-position: 0 0, 16px 16px;
+  cursor: grab;
+  user-select: none;
+}
+
+.map-viewport:active {
+  cursor: grabbing;
+}
+
+.map-canvas-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 50%;
+  transition: transform 0.15s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.svg-floor-plan {
+  width: 1100px;
+  height: 750px;
+  max-width: 95vw;
+  max-height: 85vh;
+  filter: drop-shadow(0 15px 35px rgba(15, 23, 42, 0.12));
+}
+
+/* -------------------------------------------------------------------
+   SVG Map Architectural Elements & Styling
+   ------------------------------------------------------------------- */
+.building-outer-wall {
+  fill: #ffffff;
+  stroke: #94a3b8;
+  stroke-width: 5;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 6px 16px rgba(15, 23, 42, 0.08));
+}
+
+.inner-corridor {
+  fill: #f1f5f9;
+  stroke: #cbd5e1;
+  stroke-width: 2;
+}
+
+/* Room Polygons */
+.map-room {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  stroke-width: 2.5;
+}
+
+.map-room:hover {
+  filter: drop-shadow(0 8px 18px rgba(37, 99, 235, 0.25));
+  stroke-width: 3.5;
+  transform: translateZ(10px);
+}
+
+/* Room Type Styles */
+.room-academic {
+  fill: #eff6ff;
+  stroke: #3b82f6;
+}
+.room-academic:hover {
+  fill: #dbeafe;
+  stroke: #1d4ed8;
+}
+
+.room-lab {
+  fill: #f5f3ff;
+  stroke: #8b5cf6;
+}
+.room-lab:hover {
+  fill: #ede9fe;
+  stroke: #6d28d9;
+}
+
+.room-library {
+  fill: #ecfeff;
+  stroke: #06b6d4;
+}
+.room-library:hover {
+  fill: #cffafe;
+  stroke: #0891b2;
+}
+
+.room-seminar {
+  fill: #eff6ff;
+  stroke: #2563eb;
+}
+.room-seminar:hover {
+  fill: #dbeafe;
+  stroke: #1e40af;
+}
+
+.room-reception {
+  fill: #fffbeb;
+  stroke: #f59e0b;
+}
+.room-reception:hover {
+  fill: #fef3c7;
+  stroke: #d97706;
+}
+
+.room-restroom {
+  fill: #ecfdf5;
+  stroke: #10b981;
+}
+.room-restroom:hover {
+  fill: #d1fae5;
+  stroke: #059669;
+}
+
+.room-entrance {
+  fill: #ecfdf5;
+  stroke: #059669;
+}
+
+.room-elevator {
+  fill: #ecfeff;
+  stroke: #0ea5e9;
+  stroke-dasharray: 6 3;
+}
+.room-elevator:hover {
+  fill: #bae6fd;
+}
+
+.room-stairs {
+  fill: #fff7ed;
+  stroke: #f97316;
+}
+.room-stairs:hover {
+  fill: #ffedd5;
+}
+
+/* Selected Room States */
+.map-room.is-start {
+  fill: #d1fae5 !important;
+  stroke: #10b981 !important;
+  stroke-width: 4 !important;
+  filter: drop-shadow(0 0 16px rgba(16, 185, 129, 0.6)) !important;
+}
+
+.map-room.is-destination {
+  fill: #dbeafe !important;
+  stroke: #2563eb !important;
+  stroke-width: 4 !important;
+  filter: drop-shadow(0 0 16px rgba(37, 99, 235, 0.6)) !important;
+}
+
+/* Room Typography & Labels */
+.room-label-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 13px;
+  fill: var(--navy-900);
+  pointer-events: none;
+  text-anchor: middle;
+}
+
+.room-label-sub {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 10px;
+  fill: var(--navy-600);
+  pointer-events: none;
+  text-anchor: middle;
+}
+
+.room-icon-glyph {
+  font-size: 16px;
+  pointer-events: none;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+
+/* -------------------------------------------------------------------
+   Blocked Corridor & Obstacle Overlays
+   ------------------------------------------------------------------- */
+.blocked-corridor-zone {
+  fill: url(#hazard-pattern);
+  stroke: #ef4444;
+  stroke-width: 3;
+  animation: glowObstacle 2s infinite ease-in-out;
+  cursor: pointer;
+}
+
+.obstacle-marker {
+  cursor: pointer;
+  filter: drop-shadow(0 4px 10px rgba(239, 68, 68, 0.4));
+}
+
+/* -------------------------------------------------------------------
+   Animated Navigation Route Lines
+   ------------------------------------------------------------------- */
+/* Recommended Accessible Route: Glowing Cyan / Electric Blue */
+.route-path-accessible {
+  fill: none;
+  stroke: #06b6d4;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.7));
+  stroke-dasharray: 12 8;
+  animation: pathFlow 1.2s linear infinite;
+}
+
+.route-path-accessible-glow {
+  fill: none;
+  stroke: rgba(6, 182, 212, 0.3);
+  stroke-width: 14;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Alternative / Stairs Route: Amber dashed */
+.route-path-alternative {
+  fill: none;
+  stroke: #f59e0b;
+  stroke-width: 4.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 8 6;
+  opacity: 0.85;
+}
+
+/* -------------------------------------------------------------------
+   Animated Location Markers (Start / Destination)
+   ------------------------------------------------------------------- */
+.pin-start-circle {
+  fill: #10b981;
+  stroke: #ffffff;
+  stroke-width: 3;
+  filter: drop-shadow(0 4px 8px rgba(16, 185, 129, 0.4));
+}
+
+.pin-start-pulse {
+  fill: none;
+  stroke: #10b981;
+  stroke-width: 2;
+  animation: pulseRadar 1.8s ease-out infinite;
+  transform-origin: center;
+}
+
+.pin-dest-circle {
+  fill: #2563eb;
+  stroke: #ffffff;
+  stroke-width: 3;
+  filter: drop-shadow(0 4px 8px rgba(37, 99, 235, 0.4));
+}
+
+.pin-dest-pulse {
+  fill: none;
+  stroke: #06b6d4;
+  stroke-width: 2;
+  animation: pulseRadar 1.8s ease-out infinite;
+  animation-delay: 0.4s;
+  transform-origin: center;
+}
+
+/* -------------------------------------------------------------------
+   Floating Map UI Panels (Controls, Legend, Turn HUD)
+   ------------------------------------------------------------------- */
+.map-floating-controls {
+  position: absolute;
+  right: 1.5rem;
+  bottom: 2rem;
+  z-index: 15;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.map-control-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-subtle);
+  color: var(--navy-800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.map-control-btn:hover {
+  background: #ffffff;
+  color: var(--primary);
+  transform: scale(1.05);
+  box-shadow: var(--shadow-lg);
+}
+
+.map-floating-legend {
+  position: absolute;
+  left: 1.5rem;
+  bottom: 2rem;
+  z-index: 15;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow-md);
+  max-width: 280px;
+  transition: all var(--transition-normal);
+}
+
+.legend-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--navy-700);
+  margin-bottom: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.8rem;
+  color: var(--navy-700);
+  margin-bottom: 0.4rem;
+}
+
+.legend-swatch {
+  width: 18px;
+  height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.legend-swatch.swatch-route-accessible {
+  background: #06b6d4;
+  box-shadow: 0 0 6px rgba(6, 182, 212, 0.8);
+}
+.legend-swatch.swatch-route-stairs {
+  background: repeating-linear-gradient(90deg, #f59e0b, #f59e0b 4px, transparent 4px, transparent 8px);
+}
+.legend-swatch.swatch-blocked {
+  background: #ef4444;
+}
+.legend-swatch.swatch-academic { background: #dbeafe; border: 1px solid #3b82f6; }
+.legend-swatch.swatch-lab { background: #ede9fe; border: 1px solid #8b5cf6; }
+.legend-swatch.swatch-transit { background: #cffafe; border: 1px solid #06b6d4; }
+
+/* Turn-by-Turn Guidance HUD Overlay */
+.map-guidance-hud {
+  position: absolute;
+  top: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #ffffff;
+  border-radius: var(--radius-full);
+  padding: 0.65rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: var(--shadow-xl);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  max-width: 90vw;
+  animation: slideDownFade 0.4s ease-out;
+}
+
+.hud-direction-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.hud-text {
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.hud-subtext {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+/* Room Details Drawer / Card */
+.room-details-card {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 340px;
+  background: #ffffff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid var(--border-subtle);
+  z-index: 18;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: none;
+}
+
+.room-details-card.show {
+  display: block;
+  animation: slideInRight 0.3s ease-out forwards;
+}
+
+.room-details-header {
+  padding: 1.25rem;
+  background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-800) 100%);
+  color: #ffffff;
+  position: relative;
+}
+
+.room-details-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: #94a3b8;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.room-details-close:hover {
+  color: #ffffff;
+}
+
+.room-details-body {
+  padding: 1.25rem;
+}
+
+.room-badge-row {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 767.98px) {
+  .map-floating-legend {
+    display: none;
+  }
+  .room-details-card {
+    top: auto;
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+    width: auto;
+  }
+}

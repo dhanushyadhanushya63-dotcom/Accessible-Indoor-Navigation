@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navigation History - Accessible Indoor Navigation</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Custom Core, App Shell & Animation Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <div class="sidebar-overlay"></div>
+
+  <div class="app-wrapper">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <div class="logo-icon-box" style="width: 36px; height: 36px;">
+            <i data-lucide="compass" style="width: 20px; height: 20px;"></i>
+          </div>
+          <span>Navi<span class="highlight">Able</span></span>
+        </a>
+        <button id="sidebar-collapse-btn" class="btn btn-sm btn-icon btn-light d-none d-lg-flex" title="Toggle Sidebar">
+          <i data-lucide="chevrons-left" style="width: 16px; height: 16px;"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-nav-container">
+        <div class="sidebar-section-title">Navigation Hub</div>
+        <a href="dashboard.html" class="nav-item-link">
+          <i data-lucide="layout-dashboard" class="nav-icon"></i>
+          <span class="nav-item-text">Dashboard</span>
+        </a>
+        <a href="floor-map.html" class="nav-item-link">
+          <i data-lucide="map" class="nav-icon"></i>
+          <span class="nav-item-text">Interactive Floor Map</span>
+          <span class="nav-badge badge-custom badge-cyan">2D Live</span>
+        </a>
+        <a href="route-planner.html" class="nav-item-link">
+          <i data-lucide="route" class="nav-icon"></i>
+          <span class="nav-item-text">Route Planner</span>
+        </a>
+
+        <div class="sidebar-section-title">Safety & Facility</div>
+        <a href="obstacles.html" class="nav-item-link">
+          <i data-lucide="shield-alert" class="nav-icon"></i>
+          <span class="nav-item-text">Obstacle Manager</span>
+          <span class="nav-badge badge-custom badge-rose">1 Alert</span>
+        </a>
+        <a href="history.html" class="nav-item-link active">
+          <i data-lucide="history" class="nav-icon"></i>
+          <span class="nav-item-text">Navigation History</span>
+        </a>
+
+        <div class="sidebar-section-title">Preferences</div>
+        <a href="accessibility.html" class="nav-item-link">
+          <i data-lucide="accessibility" class="nav-icon"></i>
+          <span class="nav-item-text">Accessibility Settings</span>
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user-card">
+          <div class="sidebar-user-avatar">AC</div>
+          <div class="sidebar-user-info overflow-hidden">
+            <div class="fw-bold text-navy-950 text-truncate" style="font-size: 0.85rem;">Alex Chen</div>
+            <div class="text-muted text-truncate" style="font-size: 0.725rem;">Wheelchair Mode Active</div>
+          </div>
+          <a href="login.html" class="btn btn-sm btn-icon btn-light ms-auto" title="Sign Out">
+            <i data-lucide="log-out" style="width: 14px; height: 14px;"></i>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="app-main">
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button id="sidebar-toggle-btn" class="btn btn-icon btn-light d-lg-none" title="Open Menu">
+            <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
+          </button>
+          <div class="fw-bold text-navy-900 d-flex align-items-center gap-2">
+            <i data-lucide="history" class="text-primary" style="width: 20px; height: 20px;"></i>
+            <span>Navigation History & Journey Log</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <button class="topbar-btn toggle-contrast-btn" title="Toggle High Contrast">
+            <i data-lucide="eye" style="width: 18px; height: 18px;"></i>
+          </button>
+          <button class="topbar-btn toggle-font-btn" title="Toggle Large Font">
+            <i data-lucide="type" style="width: 18px; height: 18px;"></i>
+          </button>
+          <a href="floor-map.html" class="btn btn-sm btn-primary">
+            <i data-lucide="map" style="width: 14px; height: 14px;"></i>
+            <span>Open Map</span>
+          </a>
+        </div>
+      </header>
+
+      <main class="dashboard-content">
+        <!-- Page Header -->
+        <div class="page-header-box">
+          <div>
+            <h1 class="page-title">Navigation History</h1>
+            <p class="page-subtitle">Review previous indoor journeys, distance metrics, and re-run saved routes with 1-click.</p>
+          </div>
+          <div class="d-flex gap-2">
+            <button id="btn-clear-history" class="btn btn-outline-danger btn-sm">
+              <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>
+              <span>Clear Log</span>
+            </button>
+            <button class="btn btn-outline-secondary btn-sm" onclick="showToast('Export Ready', 'Exported route history log to CSV format.', 'info')">
+              <i data-lucide="download" style="width: 14px; height: 14px;"></i>
+              <span>Export CSV</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3 KPI Summary Cards -->
+        <div class="row g-3 mb-4">
+          <div class="col-md-4">
+            <div class="stat-card">
+              <div>
+                <div class="stat-number" id="stat-hist-total">3</div>
+                <div class="stat-label">Total Journeys Logged</div>
+                <div class="stat-trend positive">
+                  <i data-lucide="check" style="width: 14px; height: 14px;"></i>
+                  <span>100% Completed</span>
+                </div>
+              </div>
+              <div class="stat-icon-box stat-icon-blue">
+                <i data-lucide="route" style="width: 22px; height: 22px;"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="stat-card">
+              <div>
+                <div class="stat-number text-warning" id="stat-hist-rerouted">1</div>
+                <div class="stat-label">Obstacle Detours Avoided</div>
+                <div class="stat-trend alert">
+                  <i data-lucide="shield-check" style="width: 14px; height: 14px;"></i>
+                  <span>Zero Hazard Exposure</span>
+                </div>
+              </div>
+              <div class="stat-icon-box stat-icon-cyan">
+                <i data-lucide="shield-alert" style="width: 22px; height: 22px;"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="stat-card">
+              <div>
+                <div class="stat-number text-success" id="stat-hist-dist">270m</div>
+                <div class="stat-label">Total Distance Navigated</div>
+                <div class="stat-trend positive">
+                  <i data-lucide="activity" style="width: 14px; height: 14px;"></i>
+                  <span>Step-Free Campus Transit</span>
+                </div>
+              </div>
+              <div class="stat-icon-box stat-icon-emerald">
+                <i data-lucide="navigation" style="width: 22px; height: 22px;"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- History Search & Filter Bar -->
+        <div class="card-saas p-4 mb-4">
+          <div class="row g-3 align-items-center mb-3">
+            <div class="col-md-6 col-lg-7">
+              <div class="input-group">
+                <span class="input-group-text bg-white border-end-0 text-muted">
+                  <i data-lucide="search" style="width: 16px; height: 16px;"></i>
+                </span>
+                <input type="text" id="history-search-input" class="form-control border-start-0" placeholder="Search by origin room, destination, or mode...">
+              </div>
+            </div>
+
+            <div class="col-md-6 col-lg-5 d-flex gap-2 justify-content-md-end">
+              <select id="history-filter-status" class="form-select form-select-sm" style="max-width: 200px;">
+                <option value="all" selected>All Journeys</option>
+                <option value="completed">Completed</option>
+                <option value="rerouted">Obstacle Rerouted</option>
+                <option value="wheelchair">Wheelchair (Stair-Free)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- History Table -->
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th class="small text-muted">Origin Point</th>
+                  <th class="small text-muted">Destination</th>
+                  <th class="small text-muted">Routing Profile</th>
+                  <th class="small text-muted">Distance / Time</th>
+                  <th class="small text-muted">Date & Time</th>
+                  <th class="small text-muted">Status Badge</th>
+                  <th class="small text-muted text-end">Action</th>
+                </tr>
+              </thead>
+              <tbody id="history-tbody">
+                <!-- Dynamically populated via js/history.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/route.js"></script>
+  <script src="js/history.js"></script>
+</body>
+</html>

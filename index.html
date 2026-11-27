@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessible Indoor Navigation & Obstacle-Aware Route Planner</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Custom Core & Animation Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/map.css">
+</head>
+<body>
+
+  <!-- ===================================================================
+       Top Navigation Bar
+       =================================================================== -->
+  <header class="navbar-main">
+    <div class="container d-flex align-items-center justify-content-between">
+      <a href="index.html" class="navbar-brand-logo text-decoration-none">
+        <div class="logo-icon-box">
+          <i data-lucide="compass" style="width: 24px; height: 24px;"></i>
+        </div>
+        <span>Navi<span class="highlight">Able</span></span>
+      </a>
+
+      <!-- Desktop Nav Links -->
+      <nav class="d-none d-lg-flex align-items-center gap-1">
+        <a href="#features" class="nav-link-custom">Features</a>
+        <a href="#how-it-works" class="nav-link-custom">How It Works</a>
+        <a href="#accessibility" class="nav-link-custom">Accessibility</a>
+        <a href="#stats" class="nav-link-custom">Impact</a>
+        <a href="floor-map.html" class="nav-link-custom">Interactive Map</a>
+      </nav>
+
+      <!-- Action Buttons & Accessibility Quick Toggle -->
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-outline-primary btn-sm toggle-contrast-btn" title="Toggle High Contrast Mode" aria-label="High Contrast Mode">
+          <i data-lucide="eye" style="width: 16px; height: 16px;"></i>
+          <span class="d-none d-sm-inline">Contrast</span>
+        </button>
+        <button class="btn btn-outline-primary btn-sm toggle-font-btn" title="Toggle Larger Font" aria-label="Large Font Size">
+          <i data-lucide="type" style="width: 16px; height: 16px;"></i>
+        </button>
+        <a href="login.html" class="btn btn-soft-primary btn-sm">Sign In</a>
+        <a href="dashboard.html" class="btn btn-gradient btn-sm">
+          <span>Launch App</span>
+          <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===================================================================
+         Hero Section
+         =================================================================== -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="row align-items-center g-5">
+          <!-- Hero Text -->
+          <div class="col-lg-6">
+            <div class="hero-pill fade-in-up">
+              <i data-lucide="shield-check" style="width: 16px; height: 16px; color: var(--emerald);"></i>
+              <span>Next-Gen ADA & Wheelchair Compliant Indoor Navigation</span>
+            </div>
+            
+            <h1 class="hero-title fade-in-up">
+              Navigate Every Space. <br>
+              <span class="gradient-text">Access Every Path.</span>
+            </h1>
+
+            <p class="hero-subtitle fade-in-up">
+              A high-precision, obstacle-aware indoor route planning platform engineered for campuses, hospitals, and public facilities. Powered by smart Dijkstra pathfinding with live maintenance alerts, elevator prioritization, and 100% step-free routing.
+            </p>
+
+            <div class="d-flex flex-wrap gap-3 mb-4 fade-in-up">
+              <a href="floor-map.html" class="btn btn-gradient btn-lg shadow-primary">
+                <i data-lucide="map" style="width: 20px; height: 20px;"></i>
+                <span>Open Interactive Map</span>
+              </a>
+              <a href="#features" class="btn btn-outline-primary btn-lg">
+                <i data-lucide="layers" style="width: 20px; height: 20px;"></i>
+                <span>Explore Features</span>
+              </a>
+            </div>
+
+            <!-- Quick Trust Badges -->
+            <div class="d-flex align-items-center gap-4 pt-2 border-top border-light-subtle">
+              <div class="d-flex align-items-center gap-2">
+                <i data-lucide="check" class="text-success" style="width: 18px; height: 18px;"></i>
+                <small class="fw-semibold text-muted">WCAG 2.1 AAA Ready</small>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <i data-lucide="check" class="text-success" style="width: 18px; height: 18px;"></i>
+                <small class="fw-semibold text-muted">Zero Step Guarantee</small>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <i data-lucide="check" class="text-success" style="width: 18px; height: 18px;"></i>
+                <small class="fw-semibold text-muted">Live Rerouting</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Interactive Mini Floor Map Illustration -->
+          <div class="col-lg-6">
+            <div class="card-saas card-glass p-3 shadow-xl position-relative animate-float">
+              <!-- Top mini status bar -->
+              <div class="d-flex align-items-center justify-content-between mb-3 px-2">
+                <div class="d-flex align-items-center gap-2">
+                  <span class="badge-custom badge-emerald">
+                    <span class="animate-pulse-dot" style="display:inline-block; width:6px; height:6px; background:#10b981; border-radius:50%;"></span>
+                    Live Reroute Active
+                  </span>
+                  <span class="badge-custom badge-cyan">Ground Floor (Level 0)</span>
+                </div>
+                <div class="d-flex align-items-center gap-2 text-muted small">
+                  <i data-lucide="clock" style="width: 14px; height: 14px;"></i>
+                  <span>1.8 min travel</span>
+                </div>
+              </div>
+
+              <!-- Mini SVG Floor Plan Preview -->
+              <div style="background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; overflow: hidden; position: relative;">
+                <svg viewBox="0 0 700 450" class="w-100" style="height: 340px; display: block;">
+                  <!-- Background architectural grid -->
+                  <defs>
+                    <pattern id="hero-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#e2e8f0" stroke-width="0.8"/>
+                    </pattern>
+                    <!-- Hazard Hatch Pattern -->
+                    <pattern id="hazard-pattern-hero" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                      <rect width="5" height="10" fill="#fee2e2"></rect>
+                      <rect x="5" width="5" height="10" fill="#fecaca"></rect>
+                    </pattern>
+                  </defs>
+                  
+                  <rect width="100%" height="100%" fill="url(#hero-grid)" />
+
+                  <!-- Corridor A Spine -->
+                  <rect x="90" y="200" width="520" height="45" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5" />
+                  <!-- Corridor B Vertical -->
+                  <rect x="490" y="80" width="45" height="280" rx="6" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1.5" />
+
+                  <!-- Room 101 -->
+                  <rect x="90" y="80" width="100" height="85" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="2" />
+                  <text x="140" y="125" text-anchor="middle" font-family="'Outfit', sans-serif" font-weight="700" font-size="12" fill="#1e40af">Room 101</text>
+                  <text x="140" y="142" text-anchor="middle" font-size="9" fill="#64748b">Lecture Hall</text>
+
+                  <!-- Room 102 -->
+                  <rect x="220" y="80" width="100" height="85" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="2" />
+                  <text x="270" y="125" text-anchor="middle" font-family="'Outfit', sans-serif" font-weight="700" font-size="12" fill="#1e40af">Room 102</text>
+                  <text x="270" y="142" text-anchor="middle" font-size="9" fill="#64748b">Smart Class</text>
+
+                  <!-- Computer Lab -->
+                  <rect x="350" y="80" width="100" height="85" rx="8" fill="#f5f3ff" stroke="#8b5cf6" stroke-width="2" />
+                  <text x="400" y="125" text-anchor="middle" font-family="'Outfit', sans-serif" font-weight="700" font-size="12" fill="#6d28d9">CS Lab</text>
+                  <text x="400" y="142" text-anchor="middle" font-size="9" fill="#64748b">Assistive Tech</text>
+
+                  <!-- Library (East Wing) -->
+                  <rect x="560" y="80" width="100" height="110" rx="8" fill="#ecfeff" stroke="#06b6d4" stroke-width="2" />
+                  <text x="610" y="135" text-anchor="middle" font-family="'Outfit', sans-serif" font-weight="700" font-size="12" fill="#0e7490">Library</text>
+                  <text x="610" y="152" text-anchor="middle" font-size="9" fill="#64748b">Quiet Zone</text>
+
+                  <!-- Seminar Hall (Auditorium) -->
+                  <rect x="560" y="240" width="100" height="120" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="2" />
+                  <text x="610" y="295" text-anchor="middle" font-family="'Outfit', sans-serif" font-weight="700" font-size="12" fill="#1d4ed8">Seminar Hall</text>
+                  <text x="610" y="312" text-anchor="middle" font-size="9" fill="#64748b">Main Stage</text>
+
+                  <!-- Elevator A -->
+                  <rect x="130" y="280" width="80" height="70" rx="8" fill="#ecfeff" stroke="#0ea5e9" stroke-width="2" stroke-dasharray="4 2" />
+                  <text x="170" y="318" text-anchor="middle" font-family="'Outfit', sans-serif" font-weight="700" font-size="11" fill="#0284c7">Elevator A</text>
+                  <text x="170" y="334" text-anchor="middle" font-size="9" fill="#0369a1">♿ Braille</text>
+
+                  <!-- Reception -->
+                  <rect x="240" y="280" width="90" height="70" rx="8" fill="#fffbeb" stroke="#f59e0b" stroke-width="2" />
+                  <text x="285" y="318" text-anchor="middle" font-family="'Outfit', sans-serif" font-weight="700" font-size="11" fill="#b45309">Reception</text>
+                  <text x="285" y="334" text-anchor="middle" font-size="9" fill="#92400e">Information</text>
+
+                  <!-- Main Entrance -->
+                  <rect x="360" y="310" width="90" height="50" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="2" />
+                  <text x="405" y="340" text-anchor="middle" font-family="'Outfit', sans-serif" font-weight="700" font-size="11" fill="#065f46">Entrance</text>
+
+                  <!-- Blocked Corridor B indicator -->
+                  <rect x="490" y="210" width="45" height="70" rx="4" fill="url(#hazard-pattern-hero)" stroke="#ef4444" stroke-width="2" />
+                  <text x="512" y="250" text-anchor="middle" font-size="14">⛔</text>
+
+                  <!-- South Garden Terrace Ramp (Accessible Bypass!) -->
+                  <path d="M 405 330 L 490 390 L 580 390 L 610 360" fill="none" stroke="#a7f3d0" stroke-width="8" stroke-linecap="round" />
+                  <text x="500" y="415" text-anchor="middle" font-size="9" font-weight="600" fill="#059669">Garden Terrace Ramp (1:12 Slope)</text>
+
+                  <!-- Neon Active Route Path (Bypasses obstacle automatically!) -->
+                  <path d="M 405 330 L 490 390 L 580 390 L 610 330" fill="none" stroke="rgba(6, 182, 212, 0.3)" stroke-width="12" stroke-linecap="round" />
+                  <path d="M 405 330 L 490 390 L 580 390 L 610 330" fill="none" stroke="#06b6d4" stroke-width="4.5" stroke-linecap="round" stroke-dasharray="10 6" class="route-path-accessible" />
+
+                  <!-- Start Pin at Entrance -->
+                  <g transform="translate(405, 330)">
+                    <circle r="6" fill="#10b981" stroke="#ffffff" stroke-width="2" />
+                    <circle r="12" fill="none" stroke="#10b981" stroke-width="1.5" class="pin-start-pulse" />
+                  </g>
+
+                  <!-- End Pin at Seminar Hall -->
+                  <g transform="translate(610, 330)">
+                    <circle r="6" fill="#2563eb" stroke="#ffffff" stroke-width="2" />
+                    <circle r="12" fill="none" stroke="#06b6d4" stroke-width="1.5" class="pin-dest-pulse" />
+                  </g>
+                </svg>
+              </div>
+
+              <!-- Micro Floating Guidance Alert -->
+              <div class="mt-3 p-2 bg-white rounded-3 border border-light-subtle d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-2">
+                  <div class="rounded-circle p-2 bg-primary text-white d-flex">
+                    <i data-lucide="corner-up-right" style="width: 14px; height: 14px;"></i>
+                  </div>
+                  <div>
+                    <div class="fw-bold text-dark small">Corridor B Under Maintenance</div>
+                    <div class="text-muted" style="font-size: 0.75rem;">Route automatically diverted via South Terrace Ramp. Zero steps.</div>
+                  </div>
+                </div>
+                <a href="floor-map.html" class="btn btn-sm btn-soft-primary">Try Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         Feature Cards Section
+         =================================================================== -->
+    <section id="features" class="py-5 bg-white border-top border-bottom border-light-subtle">
+      <div class="container py-4">
+        <div class="text-center max-w-700 mx-auto mb-5">
+          <span class="badge-custom badge-primary mb-2">Core Capabilities</span>
+          <h2 class="h1 fw-bold text-navy-950">Engineered for Universal Indoor Independence</h2>
+          <p class="text-muted">Designed from the ground up for students, faculty, staff, and visitors with diverse mobility needs, visual sensitivities, and navigation preferences.</p>
+        </div>
+
+        <div class="row g-4">
+          <!-- Feature 1 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-box">
+              <div class="feature-icon-wrapper bg-primary-subtle text-primary">
+                <i data-lucide="shield-alert"></i>
+              </div>
+              <h4 class="fw-bold mb-2">Dynamic Obstacle Awareness</h4>
+              <p class="text-muted small">Real-time status tracking for wet floors, ongoing repairs, and temporary blockages. Routes instantly recalculate around hazardous zones.</p>
+              <div class="mt-3">
+                <span class="badge-custom badge-rose">Real-Time Dijkstra Rerouting</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-box">
+              <div class="feature-icon-wrapper bg-cyan-subtle text-cyan-hover">
+                <i data-lucide="accessibility"></i>
+              </div>
+              <h4 class="fw-bold mb-2">100% Step-Free & Wheelchair Safe</h4>
+              <p class="text-muted small">Configurable mobility profiles strictly eliminate staircases, favor gentle slope ramps, and guide users to accessible elevators with wide clearance.</p>
+              <div class="mt-3">
+                <span class="badge-custom badge-emerald">Zero-Step Guarantee</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-box">
+              <div class="feature-icon-wrapper bg-purple-subtle text-purple">
+                <i data-lucide="map-pin"></i>
+              </div>
+              <h4 class="fw-bold mb-2">Interactive 2D Vector Floor Maps</h4>
+              <p class="text-muted small">Explore campus rooms, laboratories, auditoriums, restrooms, and emergency exits with fluid pan-and-zoom and clickable room metadata drawers.</p>
+              <div class="mt-3">
+                <span class="badge-custom badge-purple">High-Precision SVG</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 4 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-box">
+              <div class="feature-icon-wrapper bg-amber-subtle text-warning">
+                <i data-lucide="volume-2"></i>
+              </div>
+              <h4 class="fw-bold mb-2">Audio & Screen Reader Guidance</h4>
+              <p class="text-muted small">Spoken turn-by-turn prompts, tactile corridor highlights, and WCAG AA contrast profiles empower individuals with visual or low-vision needs.</p>
+              <div class="mt-3">
+                <span class="badge-custom badge-amber">Web Speech Audio Alerts</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 5 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-box">
+              <div class="feature-icon-wrapper bg-emerald-subtle text-success">
+                <i data-lucide="layers"></i>
+              </div>
+              <h4 class="fw-bold mb-2">Multi-Floor Vertical Navigation</h4>
+              <p class="text-muted small">Seamlessly transition across multiple building levels using smart vertical transit waypoints, accessible elevators, and floor selector tabs.</p>
+              <div class="mt-3">
+                <span class="badge-custom badge-primary">Level 0 to Level 2 Mapped</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 6 -->
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-box">
+              <div class="feature-icon-wrapper bg-primary-subtle text-primary">
+                <i data-lucide="sliders"></i>
+              </div>
+              <h4 class="fw-bold mb-2">Campus Obstacle Management</h4>
+              <p class="text-muted small">Facilities managers and administrators can report, toggle, and clear corridor blockages with instant live broadcast to all active navigators.</p>
+              <div class="mt-3">
+                <span class="badge-custom badge-cyan">Admin Safety Console</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         How It Works Section
+         =================================================================== -->
+    <section id="how-it-works" class="py-5" style="background: var(--bg-body);">
+      <div class="container py-4">
+        <div class="text-center max-w-700 mx-auto mb-5">
+          <span class="badge-custom badge-cyan mb-2">Simple 3-Step Process</span>
+          <h2 class="h1 fw-bold text-navy-950">How Accessible Indoor Routing Works</h2>
+          <p class="text-muted">Get from your current location to any classroom, lab, or office in seconds with guaranteed accessible guidance.</p>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="card-saas p-4 h-100 text-center">
+              <div class="mx-auto rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px; font-size: 1.5rem; font-weight: 800;">
+                1
+              </div>
+              <h4 class="fw-bold mb-2">Pick Your Waypoints</h4>
+              <p class="text-muted small">Select your starting room or entrance and your destination from searchable dropdowns or simply click directly on the interactive floor map.</p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card-saas p-4 h-100 text-center">
+              <div class="mx-auto rounded-circle bg-cyan-subtle text-cyan-hover d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px; font-size: 1.5rem; font-weight: 800;">
+                2
+              </div>
+              <h4 class="fw-bold mb-2">Set Accessibility Needs</h4>
+              <p class="text-muted small">Toggle wheelchair preferences, enable stair-avoidance, request elevator priority, or turn on high contrast and audio guidance modes.</p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card-saas p-4 h-100 text-center">
+              <div class="mx-auto rounded-circle bg-emerald-subtle text-success d-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px; font-size: 1.5rem; font-weight: 800;">
+                3
+              </div>
+              <h4 class="fw-bold mb-2">Follow Neon Guidance</h4>
+              <p class="text-muted small">Follow the flowing animated path on your screen, view turn-by-turn guidance notes, and receive automatic reroutes if any corridor is blocked.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         Accessibility Comparison Section
+         =================================================================== -->
+    <section id="accessibility" class="py-5 bg-white border-top border-bottom border-light-subtle">
+      <div class="container py-4">
+        <div class="row align-items-center g-5">
+          <div class="col-lg-6">
+            <span class="badge-custom badge-primary mb-2">Inclusive By Design</span>
+            <h2 class="h1 fw-bold text-navy-950 mb-3">Why Traditional Maps Fail Indoors</h2>
+            <p class="text-muted mb-4">Most indoor navigation solutions treat indoor spaces as standard 2D floors, completely ignoring step hazards, narrow doors, non-working lifts, and temporary maintenance blockages.</p>
+
+            <div class="d-flex flex-column gap-3">
+              <div class="d-flex align-items-start gap-3 p-3 rounded-3" style="background: #fef2f2; border: 1px solid #fecaca;">
+                <i data-lucide="x-circle" class="text-danger flex-shrink-0 mt-1"></i>
+                <div>
+                  <h6 class="fw-bold text-danger mb-1">Standard Navigation Pitfalls</h6>
+                  <p class="mb-0 text-muted small">Directs wheelchair users into 20-step staircases, routes through wet floors, and fails to announce low doorways or non-tactile surfaces.</p>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-start gap-3 p-3 rounded-3" style="background: #ecfdf5; border: 1px solid #a7f3d0;">
+                <i data-lucide="check-circle" class="text-success flex-shrink-0 mt-1"></i>
+                <div>
+                  <h6 class="fw-bold text-success mb-1">Our Obstacle-Aware Route Planner</h6>
+                  <p class="mb-0 text-muted small">Pre-screens every meter of corridor, prioritizes ADA-certified ramps and elevators, and provides real-time detours around maintenance barriers.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="card-saas card-navy p-4 p-md-5">
+              <h3 class="text-white fw-bold mb-3">Accessibility Feature Matrix</h3>
+              <p class="text-muted small mb-4">Every route generated adheres strictly to universal accessibility guidelines.</p>
+              
+              <ul class="list-unstyled mb-4 d-flex flex-column gap-3">
+                <li class="d-flex align-items-center gap-3">
+                  <div class="rounded-circle p-1 bg-success text-white d-flex"><i data-lucide="check" style="width: 14px; height: 14px;"></i></div>
+                  <span class="text-white small">Ramp gradient verification (never exceeds 1:12 slope)</span>
+                </li>
+                <li class="d-flex align-items-center gap-3">
+                  <div class="rounded-circle p-1 bg-success text-white d-flex"><i data-lucide="check" style="width: 14px; height: 14px;"></i></div>
+                  <span class="text-white small">Minimum 36-inch clearance through all mapped doorways</span>
+                </li>
+                <li class="d-flex align-items-center gap-3">
+                  <div class="rounded-circle p-1 bg-success text-white d-flex"><i data-lucide="check" style="width: 14px; height: 14px;"></i></div>
+                  <span class="text-white small">Elevator prioritization with vocal announcements</span>
+                </li>
+                <li class="d-flex align-items-center gap-3">
+                  <div class="rounded-circle p-1 bg-success text-white d-flex"><i data-lucide="check" style="width: 14px; height: 14px;"></i></div>
+                  <span class="text-white small">Instant high-contrast mode for vision impaired users</span>
+                </li>
+              </ul>
+
+              <a href="accessibility.html" class="btn btn-cyan btn-sm">
+                <span>View Full Accessibility Center</span>
+                <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         Statistics Section
+         =================================================================== -->
+    <section id="stats" class="py-5" style="background: var(--bg-body);">
+      <div class="container py-4">
+        <div class="row g-4 text-center">
+          <div class="col-6 col-md-3">
+            <div class="card-saas p-4">
+              <div class="stats-counter-number text-primary">99.8%</div>
+              <div class="text-muted fw-semibold small mt-2">Accessible Route Accuracy</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="card-saas p-4">
+              <div class="stats-counter-number text-cyan-hover">45+</div>
+              <div class="text-muted fw-semibold small mt-2">Campus Buildings Mapped</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="card-saas p-4">
+              <div class="stats-counter-number text-success">1,200+</div>
+              <div class="text-muted fw-semibold small mt-2">Indoor Waypoints</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="card-saas p-4">
+              <div class="stats-counter-number text-primary">&lt; 0.2s</div>
+              <div class="text-muted fw-semibold small mt-2">Dijkstra Reroute Time</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         Call to Action
+         =================================================================== -->
+    <section class="py-5 bg-white border-top border-light-subtle">
+      <div class="container py-4 text-center">
+        <h2 class="h1 fw-bold text-navy-950 mb-3">Ready to Navigate with Complete Confidence?</h2>
+        <p class="text-muted max-w-700 mx-auto mb-4">Open the interactive floor map now, test obstacle scenarios, and experience true obstacle-aware route planning in action.</p>
+        <div class="d-flex justify-content-center gap-3">
+          <a href="floor-map.html" class="btn btn-gradient btn-lg">
+            <i data-lucide="map" style="width: 20px; height: 20px;"></i>
+            <span>Open Interactive Map</span>
+          </a>
+          <a href="dashboard.html" class="btn btn-outline-primary btn-lg">
+            <span>Explore Dashboard</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================================================================
+       Footer
+       =================================================================== -->
+  <footer class="footer-main">
+    <div class="container">
+      <div class="row g-4 mb-4">
+        <div class="col-lg-4">
+          <div class="navbar-brand-logo mb-3 text-white">
+            <div class="logo-icon-box">
+              <i data-lucide="compass" style="width: 24px; height: 24px;"></i>
+            </div>
+            <span class="text-white">Navi<span class="highlight">Able</span></span>
+          </div>
+          <p class="small text-muted mb-3">
+            Accessible Indoor Navigation and Obstacle-Aware Route Planner. Designed for universal independence across campuses, academic buildings, and healthcare complexes.
+          </p>
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge-custom badge-emerald">Frontend Demo Active</span>
+            <span class="badge-custom badge-cyan">v2.4 SaaS</span>
+          </div>
+        </div>
+
+        <div class="col-6 col-lg-2">
+          <h6 class="text-white fw-bold mb-3">Application</h6>
+          <ul class="list-unstyled">
+            <li><a href="dashboard.html" class="footer-link">Dashboard</a></li>
+            <li><a href="floor-map.html" class="footer-link">Interactive Map</a></li>
+            <li><a href="route-planner.html" class="footer-link">Route Planner</a></li>
+            <li><a href="obstacles.html" class="footer-link">Obstacle Manager</a></li>
+          </ul>
+        </div>
+
+        <div class="col-6 col-lg-2">
+          <h6 class="text-white fw-bold mb-3">Accessibility</h6>
+          <ul class="list-unstyled">
+            <li><a href="accessibility.html" class="footer-link">A11y Preferences</a></li>
+            <li><a href="history.html" class="footer-link">Route History</a></li>
+            <li><a href="#" class="footer-link toggle-contrast-btn">High Contrast</a></li>
+            <li><a href="#" class="footer-link toggle-font-btn">Large Font</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4">
+          <h6 class="text-white fw-bold mb-3">Campus Emergency & Safety</h6>
+          <p class="small text-muted mb-3">
+            For urgent campus facility issues or broken wheelchair lifts, notify campus facilities immediately.
+          </p>
+          <div class="p-3 rounded-3" style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1);">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <small class="text-white fw-semibold d-block">Campus Safety Dispatch</small>
+                <small class="text-muted">+1 (800) 555-CAMPUS</small>
+              </div>
+              <span class="badge-custom badge-emerald">24/7 Monitored</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-4 border-top border-secondary border-opacity-25 d-flex flex-wrap align-items-center justify-content-between gap-3 small text-muted">
+        <div>&copy; 2026 NaviAble. Accessible Indoor Navigation System. All rights reserved.</div>
+        <div class="d-flex gap-3">
+          <span>Privacy Policy</span>
+          <span>Terms of Service</span>
+          <span>ADA Compliance Statement</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Bootstrap 5 Bundle JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Core Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>

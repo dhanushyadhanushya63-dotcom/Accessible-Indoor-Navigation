@@ -1,0 +1,157 @@
+/* ===================================================================
+   ACCESSIBLE INDOOR NAVIGATION - ANIMATIONS & TRANSITIONS
+   High-performance CSS Keyframes for Neon Paths, Radars & UI Feedback
+   =================================================================== */
+
+/* 1. Neon Route Flowing Dashes (Creates living electric current feel) */
+@keyframes pathFlow {
+  from {
+    stroke-dashoffset: 40;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* 2. Radar Pulse for Location Pins */
+@keyframes pulseRadar {
+  0% {
+    r: 8px;
+    opacity: 0.9;
+    stroke-width: 3px;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    r: 26px;
+    opacity: 0;
+    stroke-width: 1px;
+  }
+}
+
+/* 3. Obstacle Pulsing Warning Glow */
+@keyframes glowObstacle {
+  0%, 100% {
+    stroke: #ef4444;
+    filter: drop-shadow(0 0 4px rgba(239, 68, 68, 0.4));
+    opacity: 0.9;
+  }
+  50% {
+    stroke: #b91c1c;
+    filter: drop-shadow(0 0 14px rgba(239, 68, 68, 0.85));
+    opacity: 1;
+  }
+}
+
+/* 4. Gentle Hero Element Float */
+@keyframes floatHero {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(0.5deg);
+  }
+}
+
+.animate-float {
+  animation: floatHero 5s ease-in-out infinite;
+}
+
+/* 5. Slide Down Fade for HUD */
+@keyframes slideDownFade {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* 6. Slide In Right for Toasts & Drawers */
+@keyframes slideInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* 7. Fade In Up */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 8. Pulsing Status Dot */
+@keyframes pulseDot {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse-dot {
+  animation: pulseDot 2s infinite ease-in-out;
+}
+
+/* 9. Skeleton Loading Shimmer */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-loading {
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+/* 10. Route Calculating Spinner Ripple */
+@keyframes rippleRoute {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.ripple-circle {
+  animation: rippleRoute 1.5s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+/* 11. Subtle Card Lift Effect */
+.hover-lift {
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}

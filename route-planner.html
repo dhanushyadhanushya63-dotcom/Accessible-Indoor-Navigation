@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Route Planner - Accessible Indoor Navigation</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Custom Core, App Shell & Animation Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/map.css">
+</head>
+<body>
+
+  <div class="sidebar-overlay"></div>
+
+  <div class="app-wrapper">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <div class="logo-icon-box" style="width: 36px; height: 36px;">
+            <i data-lucide="compass" style="width: 20px; height: 20px;"></i>
+          </div>
+          <span>Navi<span class="highlight">Able</span></span>
+        </a>
+        <button id="sidebar-collapse-btn" class="btn btn-sm btn-icon btn-light d-none d-lg-flex" title="Toggle Sidebar">
+          <i data-lucide="chevrons-left" style="width: 16px; height: 16px;"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-nav-container">
+        <div class="sidebar-section-title">Navigation Hub</div>
+        <a href="dashboard.html" class="nav-item-link">
+          <i data-lucide="layout-dashboard" class="nav-icon"></i>
+          <span class="nav-item-text">Dashboard</span>
+        </a>
+        <a href="floor-map.html" class="nav-item-link">
+          <i data-lucide="map" class="nav-icon"></i>
+          <span class="nav-item-text">Interactive Floor Map</span>
+          <span class="nav-badge badge-custom badge-cyan">2D Live</span>
+        </a>
+        <a href="route-planner.html" class="nav-item-link active">
+          <i data-lucide="route" class="nav-icon"></i>
+          <span class="nav-item-text">Route Planner</span>
+        </a>
+
+        <div class="sidebar-section-title">Safety & Facility</div>
+        <a href="obstacles.html" class="nav-item-link">
+          <i data-lucide="shield-alert" class="nav-icon"></i>
+          <span class="nav-item-text">Obstacle Manager</span>
+          <span class="nav-badge badge-custom badge-rose">1 Alert</span>
+        </a>
+        <a href="history.html" class="nav-item-link">
+          <i data-lucide="history" class="nav-icon"></i>
+          <span class="nav-item-text">Navigation History</span>
+        </a>
+
+        <div class="sidebar-section-title">Preferences</div>
+        <a href="accessibility.html" class="nav-item-link">
+          <i data-lucide="accessibility" class="nav-icon"></i>
+          <span class="nav-item-text">Accessibility Settings</span>
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user-card">
+          <div class="sidebar-user-avatar">AC</div>
+          <div class="sidebar-user-info overflow-hidden">
+            <div class="fw-bold text-navy-950 text-truncate" style="font-size: 0.85rem;">Alex Chen</div>
+            <div class="text-muted text-truncate" style="font-size: 0.725rem;">Wheelchair Mode Active</div>
+          </div>
+          <a href="login.html" class="btn btn-sm btn-icon btn-light ms-auto" title="Sign Out">
+            <i data-lucide="log-out" style="width: 14px; height: 14px;"></i>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="app-main">
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button id="sidebar-toggle-btn" class="btn btn-icon btn-light d-lg-none" title="Open Menu">
+            <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
+          </button>
+          <div class="fw-bold text-navy-900 d-flex align-items-center gap-2">
+            <i data-lucide="route" class="text-primary" style="width: 20px; height: 20px;"></i>
+            <span>Accessible Route Planner</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <button class="topbar-btn toggle-contrast-btn" title="Toggle High Contrast">
+            <i data-lucide="eye" style="width: 18px; height: 18px;"></i>
+          </button>
+          <button class="topbar-btn toggle-font-btn" title="Toggle Large Font">
+            <i data-lucide="type" style="width: 18px; height: 18px;"></i>
+          </button>
+          <a href="floor-map.html" class="btn btn-sm btn-primary">
+            <i data-lucide="map" style="width: 14px; height: 14px;"></i>
+            <span>Open Map View</span>
+          </a>
+        </div>
+      </header>
+
+      <main class="dashboard-content">
+        <!-- Page Header -->
+        <div class="page-header-box">
+          <div>
+            <h1 class="page-title">Plan an Accessible Route</h1>
+            <p class="page-subtitle">Configure specific mobility preferences and calculate obstacle-free turn-by-turn indoor directions.</p>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge-custom badge-emerald">Dijkstra Engine Ready</span>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- Left Column: Waypoints & Accessibility Controls -->
+          <div class="col-lg-5 col-xl-4">
+            <div class="card-saas p-4 mb-4">
+              <h5 class="fw-bold text-navy-950 mb-3 d-flex align-items-center gap-2">
+                <i data-lucide="sliders" class="text-primary" style="width: 18px; height: 18px;"></i>
+                <span>Journey Parameters</span>
+              </h5>
+
+              <form id="route-planner-form">
+                <!-- Origin -->
+                <div class="mb-3">
+                  <label class="form-label">Starting Point</label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light text-success">
+                      <i data-lucide="map-pin" style="width: 16px; height: 16px;"></i>
+                    </span>
+                    <select id="plan-start-select" class="form-select">
+                      <option value="main-entrance" selected>Main Campus Entrance</option>
+                      <option value="reception">Reception & Visitor Center</option>
+                      <option value="room-101">Room 101 (Lecture Hall)</option>
+                      <option value="room-102">Room 102 (Smart Classroom)</option>
+                      <option value="room-103">Room 103 (Seminar Room)</option>
+                      <option value="comp-lab">Advanced Computing Lab</option>
+                      <option value="library">Central Digital Library</option>
+                      <option value="seminar-hall">Seminar Hall (Auditorium)</option>
+                      <option value="restroom">Accessible Unisex Restroom</option>
+                      <option value="elevator">Elevator A (Central Atrium)</option>
+                      <option value="staircase">Central Pedestrian Staircase</option>
+                      <option value="terrace-ramp">South Garden Terrace Ramp</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Swap Button -->
+                <div class="text-center my-1">
+                  <button type="button" id="btn-swap-planner" class="btn btn-sm btn-icon btn-light rounded-circle shadow-xs" title="Swap Endpoints">
+                    <i data-lucide="arrow-down-up" style="width: 14px; height: 14px;"></i>
+                  </button>
+                </div>
+
+                <!-- Destination -->
+                <div class="mb-4">
+                  <label class="form-label">Destination</label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light text-primary">
+                      <i data-lucide="flag" style="width: 16px; height: 16px;"></i>
+                    </span>
+                    <select id="plan-dest-select" class="form-select">
+                      <option value="main-entrance">Main Campus Entrance</option>
+                      <option value="reception">Reception & Visitor Center</option>
+                      <option value="room-101">Room 101 (Lecture Hall)</option>
+                      <option value="room-102">Room 102 (Smart Classroom)</option>
+                      <option value="room-103">Room 103 (Seminar Room)</option>
+                      <option value="comp-lab">Advanced Computing Lab</option>
+                      <option value="library">Central Digital Library</option>
+                      <option value="seminar-hall" selected>Seminar Hall (Auditorium)</option>
+                      <option value="restroom">Accessible Unisex Restroom</option>
+                      <option value="elevator">Elevator A (Central Atrium)</option>
+                      <option value="staircase">Central Pedestrian Staircase</option>
+                      <option value="terrace-ramp">South Garden Terrace Ramp</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="border-top border-light-subtle pt-3 mb-4">
+                  <label class="form-label text-uppercase text-muted small fw-bold d-block mb-3">Accessibility Preferences</label>
+
+                  <!-- Toggle 1: Avoid Stairs -->
+                  <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div>
+                      <div class="fw-semibold text-navy-900 small">Avoid Stairs (Wheelchair Mode)</div>
+                      <div class="text-muted" style="font-size: 0.75rem;">100% step-free routing guaranteed</div>
+                    </div>
+                    <div class="form-check form-switch m-0">
+                      <input class="form-check-input" type="checkbox" id="pref-avoid-stairs" checked>
+                    </div>
+                  </div>
+
+                  <!-- Toggle 2: Prefer Elevators -->
+                  <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div>
+                      <div class="fw-semibold text-navy-900 small">Prefer Elevators</div>
+                      <div class="text-muted" style="font-size: 0.75rem;">Direct to voice-assisted lift</div>
+                    </div>
+                    <div class="form-check form-switch m-0">
+                      <input class="form-check-input" type="checkbox" id="pref-prefer-elevators" checked>
+                    </div>
+                  </div>
+
+                  <!-- Toggle 3: Avoid Blocked Corridors -->
+                  <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div>
+                      <div class="fw-semibold text-navy-900 small">Avoid Active Obstacles</div>
+                      <div class="text-muted" style="font-size: 0.75rem;">Detour around wet floors / maintenance</div>
+                    </div>
+                    <div class="form-check form-switch m-0">
+                      <input class="form-check-input" type="checkbox" id="pref-avoid-obstacles" checked>
+                    </div>
+                  </div>
+
+                  <!-- Toggle 4: Audio Guidance -->
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                      <div class="fw-semibold text-navy-900 small">Spoken Voice Prompts</div>
+                      <div class="text-muted" style="font-size: 0.75rem;">Auditory turn-by-turn guidance</div>
+                    </div>
+                    <div class="form-check form-switch m-0">
+                      <input class="form-check-input" type="checkbox" id="pref-voice-prompts">
+                    </div>
+                  </div>
+                </div>
+
+                <button type="submit" id="btn-calculate-route" class="btn btn-gradient w-100 py-2">
+                  <i data-lucide="compass" style="width: 18px; height: 18px;"></i>
+                  <span>Find Accessible Route</span>
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Right Column: Results & Turn Directions -->
+          <div class="col-lg-7 col-xl-8">
+            <!-- Calculating Skeleton (Hidden by default) -->
+            <div id="route-loading-skeleton" class="d-none">
+              <div class="card-saas p-4 mb-4">
+                <div class="skeleton-loading mb-3" style="height: 28px; width: 60%;"></div>
+                <div class="skeleton-loading mb-2" style="height: 18px; width: 90%;"></div>
+                <div class="skeleton-loading mb-4" style="height: 18px; width: 40%;"></div>
+                <div class="skeleton-loading mb-2" style="height: 50px;"></div>
+                <div class="skeleton-loading" style="height: 50px;"></div>
+              </div>
+            </div>
+
+            <!-- Route Result Card (Recommended Route) -->
+            <div id="route-result-container">
+              <div class="card-saas p-4 mb-4 border-primary shadow-md">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3 pb-3 border-bottom border-light-subtle">
+                  <div>
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                      <span class="badge-custom badge-emerald">
+                        <i data-lucide="check-circle" style="width: 12px; height: 12px;"></i>
+                        Recommended Accessible Route
+                      </span>
+                      <span class="badge-custom badge-cyan">Zero Steps</span>
+                    </div>
+                    <h4 class="fw-bold text-navy-950 mb-0" id="res-route-title">Main Entrance &rarr; Seminar Hall</h4>
+                  </div>
+
+                  <div class="text-end">
+                    <div class="h3 fw-bold text-primary mb-0" id="res-distance">115m</div>
+                    <small class="text-muted" id="res-time">~2.4 min wheelchair pace</small>
+                  </div>
+                </div>
+
+                <!-- Route Highlights Pill Row -->
+                <div class="row g-2 mb-4">
+                  <div class="col-sm-4">
+                    <div class="p-2 rounded-3 bg-light text-center">
+                      <small class="text-muted d-block">Stairs Count</small>
+                      <strong class="text-success" id="res-stairs-count">0 Steps (Level)</strong>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="p-2 rounded-3 bg-light text-center">
+                      <small class="text-muted d-block">Transit Type</small>
+                      <strong class="text-primary" id="res-transit-type">Garden Ramp Bypass</strong>
+                    </div>
+                  </div>
+                  <div class="col-sm-4">
+                    <div class="p-2 rounded-3 bg-light text-center">
+                      <small class="text-muted d-block">Obstacle Avoidance</small>
+                      <strong class="text-danger" id="res-obstacle-status">Corridor B Avoided</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Action Button Row -->
+                <div class="d-flex flex-wrap gap-2 mb-4">
+                  <a href="floor-map.html" id="btn-view-on-map" class="btn btn-primary btn-sm">
+                    <i data-lucide="map" style="width: 14px; height: 14px;"></i>
+                    <span>View Interactive Map</span>
+                  </a>
+                  <button type="button" id="btn-speak-all-steps" class="btn btn-outline-primary btn-sm">
+                    <i data-lucide="volume-2" style="width: 14px; height: 14px;"></i>
+                    <span>Read Directions Aloud</span>
+                  </button>
+                  <button type="button" id="btn-save-route-hist" class="btn btn-soft-emerald btn-sm ms-auto">
+                    <i data-lucide="bookmark" style="width: 14px; height: 14px;"></i>
+                    <span>Save to History</span>
+                  </button>
+                </div>
+
+                <!-- Turn-by-Turn Guidance Step List -->
+                <h6 class="fw-bold text-navy-900 mb-3 d-flex align-items-center gap-2">
+                  <i data-lucide="list-ordered" style="width: 16px; height: 16px;"></i>
+                  <span>Step-by-Step Navigation Guidance</span>
+                </h6>
+
+                <div class="d-flex flex-column gap-3" id="steps-instruction-list">
+                  <!-- Populated via JS -->
+                </div>
+              </div>
+
+              <!-- Alternative Route Card Comparison -->
+              <div class="card-saas p-4 bg-light border-light-subtle">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <div class="d-flex align-items-center gap-2">
+                    <i data-lucide="git-branch" class="text-warning" style="width: 18px; height: 18px;"></i>
+                    <h6 class="fw-bold text-navy-900 mb-0">Alternative Route: Central Atrium Walk</h6>
+                  </div>
+                  <span class="badge-custom badge-amber">Contains Stairs (18 steps)</span>
+                </div>
+                <p class="text-muted small mb-3">
+                  A shorter 82m pedestrian path is available through the Central Staircase. Not recommended for mobility devices or strollers.
+                </p>
+                <div class="d-flex align-items-center justify-content-between text-muted small">
+                  <span>Distance: 82m • Time: 1.3 min walking</span>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" onclick="showToast('Alternative Selected', 'Stair path rendered with warning flags.', 'warning')">Compare Path</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Bootstrap Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Main & Route Engine -->
+  <script src="js/main.js"></script>
+  <script src="js/route.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const startSelect = document.getElementById('plan-start-select');
+      const destSelect = document.getElementById('plan-dest-select');
+      const nodes = NavApp.graphNodes;
+
+      // Check URL query parameters or set defaults
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('start')) startSelect.value = params.get('start');
+      if (params.get('dest')) destSelect.value = params.get('dest');
+
+      // Swap button
+      document.getElementById('btn-swap-planner').addEventListener('click', () => {
+        const temp = startSelect.value;
+        startSelect.value = destSelect.value;
+        destSelect.value = temp;
+        calculateAndDisplayRoute();
+      });
+
+      // Form submission
+      document.getElementById('route-planner-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        calculateAndDisplayRoute();
+      });
+
+      // Calculate initial route
+      calculateAndDisplayRoute();
+
+      function calculateAndDisplayRoute() {
+        const startId = startSelect.value;
+        const destId = destSelect.value;
+        const avoidStairs = document.getElementById('pref-avoid-stairs').checked;
+        const avoidObstacles = document.getElementById('pref-avoid-obstacles').checked;
+
+        if (startId === destId) {
+          showToast('Invalid Route', 'Origin and destination cannot be identical.', 'warning');
+          return;
+        }
+
+        // Show loading skeleton simulation for snappy SaaS feel
+        const skeleton = document.getElementById('route-loading-skeleton');
+        const container = document.getElementById('route-result-container');
+        skeleton.classList.remove('d-none');
+        container.classList.add('d-none');
+
+        setTimeout(() => {
+          skeleton.classList.add('d-none');
+          container.classList.remove('d-none');
+
+          const result = NavApp.findShortestRoute(startId, destId, {
+            avoidStairs,
+            wheelchairMode: avoidStairs,
+            avoidObstacles
+          });
+
+          if (!result) {
+            document.getElementById('res-route-title').textContent = 'No Accessible Route Found';
+            document.getElementById('res-distance').textContent = '--';
+            document.getElementById('res-time').textContent = 'Blocked by Obstacles';
+            document.getElementById('steps-instruction-list').innerHTML = `
+              <div class="p-3 bg-danger-subtle text-danger rounded-3 border border-danger-subtle">
+                <strong>Route Impasse:</strong> Active corridor maintenance blocks all step-free pathways between these locations. Consider requesting campus assistance.
+              </div>
+            `;
+            return;
+          }
+
+          const startNode = NavApp.graphNodes[startId];
+          const destNode = NavApp.graphNodes[destId];
+
+          document.getElementById('res-route-title').textContent = `${startNode.name} → ${destNode.name}`;
+          document.getElementById('res-distance').textContent = `${result.distance}m`;
+          document.getElementById('res-time').textContent = `~${result.travelTime} wheelchair pace`;
+          document.getElementById('btn-view-on-map').href = `floor-map.html?start=${startId}&dest=${destId}`;
+
+          // Check if obstacle was bypassed
+          const hasBlockedCorridorB = (NavApp.obstacles || []).some(o => o.corridorId === 'corridor-b' && o.blocked);
+          document.getElementById('res-obstacle-status').textContent = hasBlockedCorridorB ? 'Corridor B Avoided' : 'Direct Corridor Open';
+
+          // Render Turn Instructions
+          const list = document.getElementById('steps-instruction-list');
+          list.innerHTML = result.instructions.map((step, idx) => `
+            <div class="p-3 rounded-3 bg-light border border-light-subtle d-flex align-items-start gap-3">
+              <div class="rounded-circle p-2 bg-primary text-white d-flex flex-shrink-0 mt-1">
+                <i data-lucide="${step.icon || 'arrow-right'}" style="width: 16px; height: 16px;"></i>
+              </div>
+              <div class="flex-grow-1">
+                <div class="fw-bold text-navy-950 small">Step ${idx + 1}: ${step.text}</div>
+                <div class="text-muted" style="font-size: 0.775rem;">${step.subtext}</div>
+              </div>
+              <button class="btn btn-sm btn-icon btn-light" title="Speak step" onclick="speakInstruction('${step.text}')">
+                <i data-lucide="volume-2" style="width: 14px; height: 14px;"></i>
+              </button>
+            </div>
+          `).join('');
+
+          if (window.lucide) lucide.createIcons({ root: container });
+
+          // Voice speak all steps
+          document.getElementById('btn-speak-all-steps').onclick = () => {
+            const allText = result.instructions.map(s => s.text).join('. ');
+            speakInstruction(allText);
+            showToast('Voice Assistant', 'Reading turn-by-turn route guidance.', 'info');
+          };
+
+          // Save to history
+          document.getElementById('btn-save-route-hist').onclick = () => {
+            const newHistoryItem = {
+              id: 'hist-' + Date.now(),
+              from: startNode.shortName || startNode.name,
+              to: destNode.shortName || destNode.name,
+              mode: avoidStairs ? 'Wheelchair (Stair-Free)' : 'Pedestrian Walk',
+              distance: `${result.distance}m`,
+              time: result.travelTime,
+              date: 'Just now',
+              status: hasBlockedCorridorB ? 'Rerouted (Obstacle Avoided)' : 'Completed'
+            };
+            NavApp.history.unshift(newHistoryItem);
+            saveHistory();
+            showToast('Route Saved', 'Saved to your navigation history.', 'success');
+          };
+
+        }, 350);
+      }
+    });
+  </script>
+</body>
+</html>

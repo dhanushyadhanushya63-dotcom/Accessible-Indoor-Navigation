@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accessibility Settings - Accessible Indoor Navigation</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Custom Core, App Shell & Animation Styles -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+
+  <div class="sidebar-overlay"></div>
+
+  <div class="app-wrapper">
+    <!-- Sidebar Navigation -->
+    <aside class="app-sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <div class="logo-icon-box" style="width: 36px; height: 36px;">
+            <i data-lucide="compass" style="width: 20px; height: 20px;"></i>
+          </div>
+          <span>Navi<span class="highlight">Able</span></span>
+        </a>
+        <button id="sidebar-collapse-btn" class="btn btn-sm btn-icon btn-light d-none d-lg-flex" title="Toggle Sidebar">
+          <i data-lucide="chevrons-left" style="width: 16px; height: 16px;"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-nav-container">
+        <div class="sidebar-section-title">Navigation Hub</div>
+        <a href="dashboard.html" class="nav-item-link">
+          <i data-lucide="layout-dashboard" class="nav-icon"></i>
+          <span class="nav-item-text">Dashboard</span>
+        </a>
+        <a href="floor-map.html" class="nav-item-link">
+          <i data-lucide="map" class="nav-icon"></i>
+          <span class="nav-item-text">Interactive Floor Map</span>
+          <span class="nav-badge badge-custom badge-cyan">2D Live</span>
+        </a>
+        <a href="route-planner.html" class="nav-item-link">
+          <i data-lucide="route" class="nav-icon"></i>
+          <span class="nav-item-text">Route Planner</span>
+        </a>
+
+        <div class="sidebar-section-title">Safety & Facility</div>
+        <a href="obstacles.html" class="nav-item-link">
+          <i data-lucide="shield-alert" class="nav-icon"></i>
+          <span class="nav-item-text">Obstacle Manager</span>
+          <span class="nav-badge badge-custom badge-rose">1 Alert</span>
+        </a>
+        <a href="history.html" class="nav-item-link">
+          <i data-lucide="history" class="nav-icon"></i>
+          <span class="nav-item-text">Navigation History</span>
+        </a>
+
+        <div class="sidebar-section-title">Preferences</div>
+        <a href="accessibility.html" class="nav-item-link active">
+          <i data-lucide="accessibility" class="nav-icon"></i>
+          <span class="nav-item-text">Accessibility Settings</span>
+          <span class="nav-badge badge-custom badge-emerald">Active</span>
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user-card">
+          <div class="sidebar-user-avatar">AC</div>
+          <div class="sidebar-user-info overflow-hidden">
+            <div class="fw-bold text-navy-950 text-truncate" style="font-size: 0.85rem;">Alex Chen</div>
+            <div class="text-muted text-truncate" style="font-size: 0.725rem;">Wheelchair Mode Active</div>
+          </div>
+          <a href="login.html" class="btn btn-sm btn-icon btn-light ms-auto" title="Sign Out">
+            <i data-lucide="log-out" style="width: 14px; height: 14px;"></i>
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="app-main">
+      <header class="app-topbar">
+        <div class="topbar-left">
+          <button id="sidebar-toggle-btn" class="btn btn-icon btn-light d-lg-none" title="Open Menu">
+            <i data-lucide="menu" style="width: 20px; height: 20px;"></i>
+          </button>
+          <div class="fw-bold text-navy-900 d-flex align-items-center gap-2">
+            <i data-lucide="accessibility" class="text-primary" style="width: 20px; height: 20px;"></i>
+            <span>Accessibility Preferences & Mobility Profile</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <button class="topbar-btn toggle-contrast-btn" title="Toggle High Contrast">
+            <i data-lucide="eye" style="width: 18px; height: 18px;"></i>
+          </button>
+          <button class="topbar-btn toggle-font-btn" title="Toggle Large Font">
+            <i data-lucide="type" style="width: 18px; height: 18px;"></i>
+          </button>
+          <a href="floor-map.html" class="btn btn-sm btn-primary">
+            <i data-lucide="map" style="width: 14px; height: 14px;"></i>
+            <span>Go to Map</span>
+          </a>
+        </div>
+      </header>
+
+      <main class="dashboard-content">
+        <!-- Page Header -->
+        <div class="page-header-box">
+          <div>
+            <h1 class="page-title">Accessibility Settings</h1>
+            <p class="page-subtitle">Configure your personal mobility profile, visual display modes, and voice feedback preferences.</p>
+          </div>
+          <div class="d-flex gap-2">
+            <button id="btn-reset-a11y" class="btn btn-outline-secondary btn-sm">
+              <i data-lucide="rotate-ccw" style="width: 14px; height: 14px;"></i>
+              <span>Reset Defaults</span>
+            </button>
+            <button id="btn-save-a11y" class="btn btn-gradient btn-sm">
+              <i data-lucide="check" style="width: 14px; height: 14px;"></i>
+              <span>Save Changes</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="row g-4">
+          <!-- Left Column: Mobility & Routing -->
+          <div class="col-lg-6">
+            <!-- Mobility Routing Preferences Card -->
+            <div class="card-saas p-4 mb-4">
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="rounded-circle p-2 bg-primary-subtle text-primary d-flex">
+                  <i data-lucide="route" style="width: 18px; height: 18px;"></i>
+                </div>
+                <h5 class="fw-bold text-navy-950 mb-0">Mobility & Route Constraints</h5>
+              </div>
+
+              <!-- Setting 1: Wheelchair-friendly route -->
+              <div class="d-flex align-items-center justify-content-between p-3 rounded-3 bg-light mb-3">
+                <div>
+                  <div class="fw-bold text-navy-900 small">Wheelchair-Friendly Routing</div>
+                  <div class="text-muted" style="font-size: 0.775rem;">Guarantees flat surfaces, verified ramp inclines, and minimum 36" doors.</div>
+                </div>
+                <div class="form-check form-switch m-0">
+                  <input class="form-check-input a11y-setting" type="checkbox" id="setting-wheelchair" checked>
+                </div>
+              </div>
+
+              <!-- Setting 2: Avoid stairs option -->
+              <div class="d-flex align-items-center justify-content-between p-3 rounded-3 bg-light mb-3">
+                <div>
+                  <div class="fw-bold text-navy-900 small">Strictly Avoid Stairs</div>
+                  <div class="text-muted" style="font-size: 0.775rem;">Removes all concrete steps and multi-level stairwells from route options.</div>
+                </div>
+                <div class="form-check form-switch m-0">
+                  <input class="form-check-input a11y-setting" type="checkbox" id="setting-avoid-stairs" checked>
+                </div>
+              </div>
+
+              <!-- Setting 3: Prefer ramps and elevators -->
+              <div class="d-flex align-items-center justify-content-between p-3 rounded-3 bg-light mb-3">
+                <div>
+                  <div class="fw-bold text-navy-900 small">Prefer Ramps and Elevators</div>
+                  <div class="text-muted" style="font-size: 0.775rem;">Prioritizes elevators with vocal floor prompts and smooth exterior ramps.</div>
+                </div>
+                <div class="form-check form-switch m-0">
+                  <input class="form-check-input a11y-setting" type="checkbox" id="setting-prefer-elevator" checked>
+                </div>
+              </div>
+
+              <!-- Setting 4: Ramp Slope Tolerance -->
+              <div class="p-3 rounded-3 bg-light">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <span class="fw-bold text-navy-900 small">Maximum Incline Slope Tolerance</span>
+                  <span class="badge-custom badge-cyan" id="slope-val">1:12 ADA Standard</span>
+                </div>
+                <div class="text-muted mb-2" style="font-size: 0.775rem;">Limit routes to gentle ramps suitable for manual wheelchairs.</div>
+                <input type="range" class="form-range" min="1" max="3" value="1" id="setting-slope">
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Visual, Text Size & Audio Feedback -->
+          <div class="col-lg-6">
+            <!-- Visual & Interface Settings Card -->
+            <div class="card-saas p-4 mb-4">
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <div class="rounded-circle p-2 bg-cyan-subtle text-cyan-hover d-flex">
+                  <i data-lucide="eye" style="width: 18px; height: 18px;"></i>
+                </div>
+                <h5 class="fw-bold text-navy-950 mb-0">Visual & Typography Settings</h5>
+              </div>
+
+              <!-- High Contrast Mode -->
+              <div class="d-flex align-items-center justify-content-between p-3 rounded-3 bg-light mb-3">
+                <div>
+                  <div class="fw-bold text-navy-900 small">High Contrast Mode</div>
+                  <div class="text-muted" style="font-size: 0.775rem;">Black background, stark borders, and high visibility accents (WCAG AAA).</div>
+                </div>
+                <div class="form-check form-switch m-0">
+                  <input class="form-check-input" type="checkbox" id="setting-contrast">
+                </div>
+              </div>
+
+              <!-- Larger Text Option -->
+              <div class="d-flex align-items-center justify-content-between p-3 rounded-3 bg-light mb-3">
+                <div>
+                  <div class="fw-bold text-navy-900 small">Enlarged Text & Buttons</div>
+                  <div class="text-muted" style="font-size: 0.775rem;">Increases font size across all titles, buttons, and navigation badges.</div>
+                </div>
+                <div class="form-check form-switch m-0">
+                  <input class="form-check-input" type="checkbox" id="setting-large-text">
+                </div>
+              </div>
+
+              <!-- Audio Guidance Simulation -->
+              <div class="d-flex align-items-center justify-content-between p-3 rounded-3 bg-light mb-3">
+                <div>
+                  <div class="fw-bold text-navy-900 small">Spoken Turn Audio Guidance</div>
+                  <div class="text-muted" style="font-size: 0.775rem;">Uses speech synthesis to announce upcoming turns and corridor hazards.</div>
+                </div>
+                <div class="form-check form-switch m-0">
+                  <input class="form-check-input" type="checkbox" id="setting-voice" checked>
+                </div>
+              </div>
+
+              <!-- Test Speaker Button -->
+              <div class="p-3 rounded-3 bg-light d-flex align-items-center justify-content-between">
+                <div>
+                  <div class="fw-bold text-navy-900 small">Test Speech Synthesizer</div>
+                  <div class="text-muted" style="font-size: 0.775rem;">Verify your device's audio prompt engine.</div>
+                </div>
+                <button type="button" id="btn-test-speaker" class="btn btn-sm btn-cyan">
+                  <i data-lucide="volume-2" style="width: 14px; height: 14px;"></i>
+                  <span>Play Test Audio</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Compliance & Certification Card -->
+        <div class="card-saas p-4 bg-navy text-white">
+          <div class="row align-items-center g-3">
+            <div class="col-md-8">
+              <span class="badge-custom badge-emerald mb-2">Verified Compliance</span>
+              <h5 class="text-white fw-bold mb-1">Americans with Disabilities Act (ADA) Certified Pathways</h5>
+              <p class="text-light opacity-75 small mb-0">
+                All routes generated in Wheelchair Mode strictly obey Title III of the ADA: minimum door widths of 32 inches (mapped 36"), maximum running slope of 1:12 on ramps, and elevator doors with 3-second minimum hold.
+              </p>
+            </div>
+            <div class="col-md-4 text-md-end">
+              <a href="floor-map.html" class="btn btn-cyan btn-sm">
+                <span>Test Live Map</span>
+                <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Sync UI controls with current NavApp.settings
+      const settings = NavApp.settings || {};
+
+      const contrastSwitch = document.getElementById('setting-contrast');
+      const largeTextSwitch = document.getElementById('setting-large-text');
+      const wheelchairSwitch = document.getElementById('setting-wheelchair');
+      const avoidStairsSwitch = document.getElementById('setting-avoid-stairs');
+      const preferElevSwitch = document.getElementById('setting-prefer-elevator');
+      const voiceSwitch = document.getElementById('setting-voice');
+
+      if (contrastSwitch) contrastSwitch.checked = !!settings.highContrast;
+      if (largeTextSwitch) largeTextSwitch.checked = !!settings.largeText;
+      if (wheelchairSwitch) wheelchairSwitch.checked = settings.wheelchairMode !== false;
+      if (avoidStairsSwitch) avoidStairsSwitch.checked = settings.avoidStairs !== false;
+      if (preferElevSwitch) preferElevSwitch.checked = settings.preferElevator !== false;
+      if (voiceSwitch) voiceSwitch.checked = !!settings.voiceGuidance;
+
+      // Real-time contrast toggle
+      contrastSwitch.addEventListener('change', () => {
+        NavApp.settings.highContrast = contrastSwitch.checked;
+        saveSettings();
+        applyA11yPreferences();
+      });
+
+      // Real-time large text toggle
+      largeTextSwitch.addEventListener('change', () => {
+        NavApp.settings.largeText = largeTextSwitch.checked;
+        saveSettings();
+        applyA11yPreferences();
+      });
+
+      // Test Speaker
+      document.getElementById('btn-test-speaker').addEventListener('click', () => {
+        speakInstruction('Accessible indoor navigation active. Turn right in 15 meters for Elevator A.');
+        showToast('Speech Synthesizer', 'Audio guidance test prompt played.', 'info');
+      });
+
+      // Save Changes button
+      document.getElementById('btn-save-a11y').addEventListener('click', () => {
+        NavApp.settings.wheelchairMode = wheelchairSwitch.checked;
+        NavApp.settings.avoidStairs = avoidStairsSwitch.checked;
+        NavApp.settings.preferElevator = preferElevSwitch.checked;
+        NavApp.settings.voiceGuidance = voiceSwitch.checked;
+        NavApp.settings.highContrast = contrastSwitch.checked;
+        NavApp.settings.largeText = largeTextSwitch.checked;
+
+        saveSettings();
+        applyA11yPreferences();
+        showToast('Preferences Saved', 'All routing pages will automatically reflect these constraints.', 'success');
+      });
+
+      // Reset Defaults
+      document.getElementById('btn-reset-a11y').addEventListener('click', () => {
+        NavApp.settings = { ...DEFAULT_SETTINGS };
+        saveSettings();
+        applyA11yPreferences();
+        contrastSwitch.checked = false;
+        largeTextSwitch.checked = false;
+        wheelchairSwitch.checked = true;
+        avoidStairsSwitch.checked = true;
+        preferElevSwitch.checked = true;
+        voiceSwitch.checked = false;
+        showToast('Defaults Restored', 'Standard accessible settings restored.', 'info');
+      });
+    });
+  </script>
+</body>
+</html>
